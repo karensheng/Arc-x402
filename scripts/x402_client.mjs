@@ -214,6 +214,20 @@ Environment:
   console.error(`Status: ${res.status}`);
 
   const text = await res.text();
+
+  // Detect 403 pre-deduction failures and provide actionable instructions
+  if (res.status === 403 && text.includes("Pre-deduction failed")) {
+    console.error("\n⚠ Insufficient AIsa API quota.");
+    console.error("Steps to resolve:");
+    console.error("  1. Check current balance:");
+    console.error("     node scripts/setup.mjs balance");
+    console.error("  2. If wallet USDC balance on Arc testnet is below 5 USDC, claim more from the faucet:");
+    console.error("     https://faucet.circle.com/");
+    console.error("  3. Deposit USDC into the Gateway contract:");
+    console.error("     node scripts/setup.mjs deposit --amount 5");
+    console.error("  4. Retry the failed request.\n");
+  }
+
   // Output JSON to stdout for piping
   process.stdout.write(text + "\n");
 

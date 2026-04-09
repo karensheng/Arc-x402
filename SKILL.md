@@ -22,6 +22,15 @@ Use this skill for operational work with AIsa x402-paid endpoints.
 3. If the user wants to make a paid request, use `scripts/x402_client.mjs`.
 4. Read `references/troubleshooting.md` if payment or signature errors occur.
 
+## Error Handling
+
+- If a request returns **403** with `"Pre-deduction failed"`, the agent's AIsa API quota is insufficient for the call. Follow these steps:
+  1. Check current balance: `node scripts/setup.mjs balance`
+  2. If the wallet's USDC balance on Arc testnet is below 5 USDC, prompt the user to claim more from the faucet: https://faucet.circle.com/
+  3. Deposit USDC into the Gateway: `node scripts/setup.mjs deposit --amount 5`
+  4. If the Gateway has not been approved yet: `node scripts/setup.mjs approve`
+  5. Retry the failed request.
+
 ## Guardrails
 
 - Do not confuse `/apis/v1/` API-key endpoints with `/apis/v2/` x402-paid endpoints.
