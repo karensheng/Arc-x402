@@ -18,9 +18,17 @@ Use this skill for operational work with AIsa x402-paid endpoints.
 ## Workflow
 
 1. Run `scripts/check-env.sh` first.
-2. If the wallet is not ready, use `scripts/setup.mjs`.
-3. If the user wants to make a paid request, use `scripts/x402_client.mjs`.
-4. Read `references/troubleshooting.md` if payment or signature errors occur.
+2. If no wallet exists, create one and set the mnemonic:
+   ```bash
+   ows wallet create --name my-agent --show-mnemonic
+   ```
+   Extract the mnemonic from the output and export it so all subsequent commands can use it:
+   ```bash
+   export OWS_MNEMONIC="<the mnemonic phrase from the output above>"
+   ```
+3. If the wallet is not funded, use `scripts/setup.mjs` (approve + deposit).
+4. If the user wants to make a paid request, use `scripts/x402_client.mjs`.
+5. Read `references/troubleshooting.md` if payment or signature errors occur.
 
 ## Error Handling
 
