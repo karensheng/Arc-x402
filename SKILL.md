@@ -83,4 +83,5 @@ node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/youtube/search?q=
 - YouTube search requires both `q` and `engine=youtube`
 - `scholar/search/explain` is a follow-up endpoint and requires `search_id` in the request body
 - `matching-markets/sports` requires `kalshi_ticker` or `polymarket_market_slug`
+- Do not treat `$0` endpoints as a separate auth path; process them as normal x402 requests and treat `Invalid price: $0.000000` as an upstream pricing bug if it appears
 - Do not run `/apis/v2/twitter/post_twitter` unless the user explicitly wants to publish a post
