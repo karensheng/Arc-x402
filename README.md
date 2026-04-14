@@ -191,7 +191,7 @@ All endpoints use base URL `https://api.aisa.one` with `/apis/v2/` paths.
 |----------|------:|
 | `/apis/v2/youtube/search` | $0.00240 |
 
-For the complete catalog with all endpoints, see [SKILL.md](./SKILL.md#full-x402-endpoint-catalog).
+For the complete priced catalog of all 80 endpoints, see [references/endpoint-catalog.md](./references/endpoint-catalog.md).
 
 ## Key Details
 
