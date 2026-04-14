@@ -1,0 +1,176 @@
+---
+name: aisa-endpoints-catalog
+description: Complete catalog of AIsa x402-paid /apis/v2/ endpoints with per-call USD prices. Use as the authoritative reference when selecting, pricing, or invoking AIsa endpoints via the Arc-x402 skill.
+---
+
+# AIsa x402 Endpoint Catalog — Complete Price List
+
+All endpoints use base URL `https://api.aisa.one` with the `/apis/v2/` path prefix. Prices are per call, charged in USDC via the x402 payment flow (Arc testnet, Circle Gateway settlement). Do not confuse `/apis/v1/` (API-key) with `/apis/v2/` (x402-paid).
+
+**Totals:** 80 endpoints across 6 categories.
+
+## Twitter (28 endpoints)
+
+Category ID: 1 | Provider: Twitter / AISA_TWITTER
+
+| # | Name | Path | Price (USD) |
+|---|------|------|------------:|
+| 1 | Batch Get User Info By UserIds | `/apis/v2/twitter/user/batch_info_by_ids` | $0.000440 |
+| 2 | Get User Info | `/apis/v2/twitter/user/info` | $0.000440 |
+| 3 | Get User Last Tweets | `/apis/v2/twitter/user/last_tweets` | $0.003600 |
+| 4 | Get User Followers | `/apis/v2/twitter/user/followers` | $0.036000 |
+| 5 | Get User Followings | `/apis/v2/twitter/user/followings` | $0.036000 |
+| 6 | Get User Mentions | `/apis/v2/twitter/user/mentions` | $0.003600 |
+| 7 | Check Follow Relationship | `/apis/v2/twitter/user/check_follow_relationship` | $0.001200 |
+| 8 | Search user by keyword | `/apis/v2/twitter/user/search` | $0.001200 |
+| 9 | Get User Verified Followers | `/apis/v2/twitter/user/verifiedFollowers` | $0.000440 |
+| 10 | Get Tweets by IDs | `/apis/v2/twitter/tweets` | $0.002200 |
+| 11 | Get Tweet Replies | `/apis/v2/twitter/tweet/replies` | $0.002200 |
+| 12 | Get User Profile About | `/apis/v2/twitter/user_about` | $0.000440 |
+| 13 | Get Tweet Quotations | `/apis/v2/twitter/tweet/quotes` | $0.002200 |
+| 14 | Get Tweet Retweeters | `/apis/v2/twitter/tweet/retweeters` | $0.002200 |
+| 15 | Get Tweet Thread Context | `/apis/v2/twitter/tweet/thread_context` | $0.007000 |
+| 16 | Get Article | `/apis/v2/twitter/article` | $0.002200 |
+| 17 | Advanced Search | `/apis/v2/twitter/tweet/advanced_search` | $0.002200 |
+| 18 | Get List Followers | `/apis/v2/twitter/list/followers` | $0.002200 |
+| 19 | Get List Members | `/apis/v2/twitter/list/members` | $0.002200 |
+| 20 | Get Community Info By Id | `/apis/v2/twitter/community/info` | $0.002200 |
+| 21 | Get Community Members | `/apis/v2/twitter/community/members` | $0.002200 |
+| 22 | Get Community Moderators | `/apis/v2/twitter/community/moderators` | $0.002200 |
+| 23 | Get Community Tweets | `/apis/v2/twitter/community/tweets` | $0.002200 |
+| 24 | Search Tweets From All Community | `/apis/v2/twitter/community/get_tweets_from_all_community` | $0.002200 |
+| 25 | Get trends by woeid | `/apis/v2/twitter/trends` | $0.002200 |
+| 26 | Get Space Detail | `/apis/v2/twitter/spaces/detail` | $0.002200 |
+| 27 | Post Twitter | `/apis/v2/twitter/post_twitter` | $0.010000 |
+| 28 | OAuth Twitter | `/apis/v2/twitter/auth_twitter` | $0.001000 |
+
+Notes: Twitter user endpoints require `userName` (not `screen_name`). Do not call `post_twitter` unless the user explicitly asks to publish.
+
+## Search & Prediction Markets (20 endpoints)
+
+Category ID: 2 | Provider: Tavily / Dome
+
+| # | Name | Path | Price (USD) |
+|---|------|------|------------:|
+| 1 | Tavily Search | `/apis/v2/tavily/search` | $0.009600 |
+| 2 | Tavily Extract | `/apis/v2/tavily/extract` | $0.009600 |
+| 3 | Tavily Crawl | `/apis/v2/tavily/crawl` | $0.009600 |
+| 4 | Tavily Map | `/apis/v2/tavily/map` | $0.009600 |
+| 5 | Polymarket — Markets | `/apis/v2/polymarket/markets` | $0.010000 |
+| 6 | Polymarket — Events | `/apis/v2/polymarket/events` | $0.010000 |
+| 7 | Polymarket — Orders | `/apis/v2/polymarket/orders` | $0.010000 |
+| 8 | Polymarket — Orderbooks | `/apis/v2/polymarket/orderbooks` | $0.010000 |
+| 9 | Polymarket — Activity | `/apis/v2/polymarket/activity` | $0.010000 |
+| 10 | Polymarket — Market Price | `/apis/v2/polymarket/market-price/{token_id}` | $0.010000 |
+| 11 | Polymarket — Candlesticks | `/apis/v2/polymarket/candlesticks` | $0.010000 |
+| 12 | Polymarket — Positions | `/apis/v2/polymarket/positions/wallet/{wallet_address}` | $0.010000 |
+| 13 | Polymarket — Wallet | `/apis/v2/polymarket/wallet` | $0.010000 |
+| 14 | Polymarket — Wallet PnL | `/apis/v2/polymarket/wallet/pnl` | $0.010000 |
+| 15 | Kalshi — Markets | `/apis/v2/kalshi/markets` | $0.010000 |
+| 16 | Kalshi — Trades | `/apis/v2/kalshi/trades` | $0.010000 |
+| 17 | Kalshi — Market Price | `/apis/v2/kalshi/market-price/{market_ticker}` | $0.010000 |
+| 18 | Kalshi — Orderbooks | `/apis/v2/kalshi/orderbooks` | $0.010000 |
+| 19 | Matching Markets — Sports | `/apis/v2/matching-markets/sports` | $0.010000 |
+| 20 | Matching Markets — Sport by Date | `/apis/v2/matching-markets/sports/{sport}` | $0.010000 |
+
+Notes: Polymarket and Kalshi search require `status=open|closed`. `matching-markets/sports` requires `kalshi_ticker` or `polymarket_market_slug`.
+
+## Financial (23 endpoints)
+
+Category ID: 3 | Provider: Financial
+
+| # | Name | Path | Price (USD) |
+|---|------|------|------------:|
+| 1 | Earnings Per Share / Analyst Estimates | `/apis/v2/financial/analyst-estimates` | $0.048000 |
+| 2 | Company Facts (by ticker) | `/apis/v2/financial/company/facts` | $0.024000 |
+| 3 | Crypto Prices Historical | `/apis/v2/financial/crypto/prices` | $0.012000 |
+| 4 | Crypto Prices Snapshot | `/apis/v2/financial/crypto/prices/snapshot` | $0.012000 |
+| 5 | Earnings Press Releases (by ticker) | `/apis/v2/financial/earnings/press-releases` | $0.048000 |
+| 6 | Financial Metrics Historical | `/apis/v2/financial/financial-metrics` | $0.024000 |
+| 7 | Financial Metrics Snapshot | `/apis/v2/financial/financial-metrics/snapshot` | $0.024000 |
+| 8 | Income Statements | `/apis/v2/financial/financials/income-statements` | $0.048000 |
+| 9 | Balance Sheets | `/apis/v2/financial/financials/balance-sheets` | $0.048000 |
+| 10 | Cash Flow Statements | `/apis/v2/financial/financials/cash-flow-statements` | $0.048000 |
+| 11 | All Financial Statements (by ticker) | `/apis/v2/financial/financials` | $0.120000 |
+| 12 | Insider Trades (by ticker) | `/apis/v2/financial/insider-trades` | $0.024000 |
+| 13 | Institutional Ownership | `/apis/v2/financial/institutional-ownership` | $0.024000 |
+| 14 | Historical Interest Rates | `/apis/v2/financial/macro/interest-rates` | $0.012000 |
+| 15 | Latest Interest Rates | `/apis/v2/financial/macro/interest-rates/snapshot` | $0.012000 |
+| 16 | Company News | `/apis/v2/financial/news` | $0.024000 |
+| 17 | Stock Screener | `/apis/v2/financial/financials/search/screener` | $0.012000 |
+| 18 | Search Financials (line items) | `/apis/v2/financial/financials/search/line-items` | $0.012000 |
+| 19 | SEC Filings (by company) | `/apis/v2/financial/filings` | $0.024000 |
+| 20 | SEC Filing Raw Items | `/apis/v2/financial/filings/items` | $0.024000 |
+| 21 | Segmented Revenue | `/apis/v2/financial/financials/segmented-revenues` | $0.024000 |
+| 22 | Stock Prices Historical | `/apis/v2/financial/prices` | $0.012000 |
+| 23 | Stock Prices Snapshot | `/apis/v2/financial/prices/snapshot` | $0.012000 |
+
+Notes: there are currently no free endpoints in the catalog. If the server ever returns `Invalid price: $0.000000`, treat it as an upstream pricing bug, not an auth-mode switch.
+
+## Scholar & Search (4 endpoints)
+
+Category ID: 6 | Provider: Scholar
+
+| # | Name | Path | Price (USD) |
+|---|------|------|------------:|
+| 1 | Scholar Search | `/apis/v2/scholar/search/scholar` | $0.002400 |
+| 2 | Web Search | `/apis/v2/scholar/search/web` | $0.002400 |
+| 3 | Mixed Smart Search | `/apis/v2/scholar/search/mixed` | $0.002400 |
+| 4 | Explain Search Results | `/apis/v2/scholar/search/explain` | $0.002400 |
+
+Notes: `scholar/search/explain` is a follow-up call and requires `search_id` in the request body.
+
+## Perplexity AI (4 endpoints)
+
+Category ID: 8 | Provider: Perplexity
+
+| # | Name | Path | Price (USD) |
+|---|------|------|------------:|
+| 1 | Sonar | `/apis/v2/perplexity/sonar` | $0.012000 |
+| 2 | Sonar Pro | `/apis/v2/perplexity/sonar-pro` | $0.012000 |
+| 3 | Sonar Reasoning Pro | `/apis/v2/perplexity/sonar-reasoning-pro` | $0.012000 |
+| 4 | Sonar Deep Research | `/apis/v2/perplexity/sonar-deep-research` | $0.012000 |
+
+Notes: All Perplexity endpoints require `model` in the JSON body.
+
+## YouTube (1 endpoint)
+
+Category ID: 5 | Provider: Youtube
+
+| # | Name | Path | Price (USD) |
+|---|------|------|------------:|
+| 1 | YouTube Search | `/apis/v2/youtube/search` | $0.002400 |
+
+Notes: Requires both `q` and `engine=youtube`.
+
+---
+
+## Price Tiers (fast reference)
+
+| Tier | Price/call | Endpoint count |
+|------|-----------:|---------------:|
+| $0.000440 | $0.000440 | 4 |
+| $0.001000 | $0.001000 | 1 |
+| $0.001200 | $0.001200 | 2 |
+| $0.002200 | $0.002200 | 15 |
+| $0.002400 | $0.002400 | 5 |
+| $0.003600 | $0.003600 | 2 |
+| $0.007000 | $0.007000 | 1 |
+| $0.009600 | $0.009600 | 4 |
+| $0.010000 | $0.010000 | 17 |
+| $0.012000 | $0.012000 | 12 |
+| $0.024000 | $0.024000 | 9 |
+| $0.036000 | $0.036000 | 2 |
+| $0.048000 | $0.048000 | 5 |
+| $0.120000 | $0.120000 | 1 |
+
+**Cheapest:** `/apis/v2/twitter/user/batch_info_by_ids`, `/apis/v2/twitter/user/info`, `/apis/v2/twitter/user/verifiedFollowers`, `/apis/v2/twitter/user_about` — all at $0.000440. **Most expensive single call:** `/apis/v2/financial/financials` at $0.120000.
+
+## Minimum Gateway Deposit Guidance
+
+A 5 USDC Gateway deposit covers roughly:
+- ~11,363 Twitter `user/info` calls, or
+- ~500 Perplexity Sonar calls, or
+- ~41 full `financial/financials` pulls.
+
+Top-up threshold per the Arc-x402 skill: auto-deposit 5 USDC whenever Gateway balance falls below 0.5 USDC.
