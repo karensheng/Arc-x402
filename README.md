@@ -52,7 +52,7 @@ node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/twitter/user/info
 ## Documentation
 
 - **[SKILL.md](./SKILL.md)** — Full agent instructions, setup workflow, request examples, error handling
-- **[references/endpoint-catalog.md](./references/endpoint-catalog.md)** — All 80 endpoints with prices
+- **[references/endpoint-catalog.md](./references/endpoint-catalog.md)** — All 79 endpoints with prices
 
 ## Resources
 
