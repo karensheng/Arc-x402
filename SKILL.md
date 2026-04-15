@@ -31,7 +31,8 @@ bash scripts/check-env.sh
 
 If `node`, `npm`, or deps are missing:
 ```bash
-npm install
+npm install -g @open-wallet-standard/core   # OWS CLI (if ows not found)
+npm install                                  # skill dependencies
 ```
 
 ### 2. Ensure Wallet Exists
@@ -59,6 +60,10 @@ Parse the output. Then apply these rules in order:
 | Gateway deposit < 0.5 USDC AND wallet ERC-20 USDC >= 5 | Run `node scripts/setup.mjs deposit --amount 5` (no user confirmation needed) |
 | Gateway deposit < 0.5 USDC AND wallet ERC-20 USDC < 5 | Tell user to claim USDC from https://faucet.circle.com/ |
 | Gateway deposit >= 0.5 USDC | Proceed |
+
+> **Warning:** Do NOT directly transfer USDC to the Gateway address. You must call `deposit()` via the setup script or the funds will be lost.
+
+To approve and deposit in one step: `node scripts/setup.mjs all` (approves + deposits 10 USDC).
 
 ### 4. Look Up Endpoint
 
@@ -89,6 +94,115 @@ POST endpoints with no body still need `--body '{}'`.
 
 Output: JSON on stdout, status info on stderr. Parse stdout for the API response.
 
+### Request Examples
+
+```bash
+export OWS_MNEMONIC="your twelve word mnemonic phrase here"
+
+# Scholar search
+node scripts/x402_client.mjs POST "https://api.aisa.one/apis/v2/scholar/search/scholar?query=AI" --body '{}'
+
+# Polymarket markets (status is required when using search)
+node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/polymarket/markets?search=election&status=open"
+
+# Tavily search
+node scripts/x402_client.mjs POST "https://api.aisa.one/apis/v2/tavily/search" --body '{"query":"latest AI news"}'
+
+# Twitter user info (use userName, not screen_name)
+node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/twitter/user/info?userName=jack"
+
+# Twitter recent tweets
+node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/twitter/user/last_tweets?userName=jack"
+
+# Kalshi markets (status is required when using search)
+node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/kalshi/markets?search=election&status=open"
+
+# Financial statements
+node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/financial/financials/income-statements?ticker=AAPL"
+node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/financial/financials?ticker=AAPL"
+
+# Scholar mixed search
+node scripts/x402_client.mjs POST "https://api.aisa.one/apis/v2/scholar/search/mixed?query=bitcoin" --body '{}'
+
+# Perplexity (model is required in the JSON body)
+node scripts/x402_client.mjs POST "https://api.aisa.one/apis/v2/perplexity/sonar" --body '{"model":"sonar","messages":[{"role":"user","content":"What is Bitcoin? Keep it brief."}]}'
+
+# YouTube search (requires both q and engine)
+node scripts/x402_client.mjs GET "https://api.aisa.one/apis/v2/youtube/search?q=bitcoin&engine=youtube"
+```
+
+### Programmatic Usage (Node.js)
+
+```javascript
+import { createPayingFetch } from "./scripts/x402_client.mjs";
+
+const { fetch: payingFetch, address } = createPayingFetch(process.env.OWS_MNEMONIC);
+const res = await payingFetch("https://api.aisa.one/apis/v2/scholar/search/scholar?query=AI", {
+  method: "POST", headers: { "Content-Type": "application/json" }, body: "{}",
+});
+const data = await res.json();
+```
+
+## Endpoint Catalog Summary
+
+All endpoints use base URL `https://api.aisa.one` with `/apis/v2/` paths. For the full catalog with all 80 endpoints, see `references/endpoint-catalog.md`.
+
+### Twitter (28 endpoints)
+
+| Endpoint | Price |
+|----------|------:|
+| `/apis/v2/twitter/user/info` | $0.00044 |
+| `/apis/v2/twitter/user/last_tweets` | $0.00360 |
+| `/apis/v2/twitter/user/followers` | $0.03600 |
+| `/apis/v2/twitter/user/followings` | $0.03600 |
+| `/apis/v2/twitter/tweet/advanced_search` | $0.00220 |
+| `/apis/v2/twitter/post_twitter` | $0.01000 |
+| ... and 22 more | |
+
+### Search & Prediction Markets (20 endpoints)
+
+| Endpoint | Price |
+|----------|------:|
+| `/apis/v2/tavily/search` | $0.00960 |
+| `/apis/v2/polymarket/markets` | $0.01000 |
+| `/apis/v2/kalshi/markets` | $0.01000 |
+| `/apis/v2/matching-markets/sports` | $0.01000 |
+| ... and 16 more | |
+
+### Financial (23 endpoints)
+
+| Endpoint | Price |
+|----------|------:|
+| `/apis/v2/financial/company/facts` | $0.00000 |
+| `/apis/v2/financial/prices` | $0.01200 |
+| `/apis/v2/financial/financials/income-statements` | $0.04800 |
+| `/apis/v2/financial/financials` (all statements) | $0.12000 |
+| ... and 19 more | |
+
+### Scholar & Search (4 endpoints)
+
+| Endpoint | Price |
+|----------|------:|
+| `/apis/v2/scholar/search/scholar` | $0.00240 |
+| `/apis/v2/scholar/search/web` | $0.00240 |
+| `/apis/v2/scholar/search/mixed` | $0.00240 |
+| `/apis/v2/scholar/search/explain` | $0.00240 |
+
+### Perplexity AI (4 endpoints)
+
+| Endpoint | Price |
+|----------|------:|
+| `/apis/v2/perplexity/sonar` | $0.01200 |
+| `/apis/v2/perplexity/sonar-pro` | $0.01200 |
+| `/apis/v2/perplexity/sonar-reasoning-pro` | $0.01200 |
+| `/apis/v2/perplexity/sonar-deep-research` | $0.01200 |
+
+### YouTube (1 endpoint)
+
+| Endpoint | Price |
+|----------|------:|
+| `/apis/v2/youtube/search` | $0.00240 |
+
 ## Endpoint Parameter Caveats
 
 | Endpoint group | Caveat |
@@ -110,8 +224,13 @@ Output: JSON on stdout, status info on stderr. Parse stdout for the API response
 | `Invalid price: $0.000000` | Upstream pricing bug | Still use x402 flow; report as upstream issue |
 | Empty 200 response | Misleading success | Inspect response body, not just status code |
 | Mnemonic not found | Env var not propagated to process | Run `node scripts/save-mnemonic.mjs --mnemonic "..."` to persist in `.env` |
+| `UnsupportedChain` (ows CLI) | `ows pay request` has known issue matching EVM testnet chain IDs | Use the JS client instead |
 
 After fixing any error, retry the original request once.
+
+## Implementation Note
+
+The AIsa proxy uses a custom EIP-712 domain where `verifyingContract` is the Gateway contract (from `extra.verifyingContract` in the 402 response), not the USDC asset address. The standard `@x402/evm` `ExactEvmScheme` does not handle this — the included `GatewayEvmScheme` in `scripts/x402_client.mjs` handles it automatically.
 
 ## Guardrails
 
